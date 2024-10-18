@@ -71,9 +71,11 @@ export default class MultiEditChildRecordList extends LightningElement {
                 this.refreshParentRecordMethod(parentFieldsToQuery);
             } else {
                 console.log('No parent fields to query.');
+                this.parentLoaded = true;
             }
         } else if (error) {
             console.error('Error fetching field conditions:', error);
+            this.parentLoaded = true;
         }
     }
 

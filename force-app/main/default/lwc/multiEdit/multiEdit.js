@@ -18,6 +18,7 @@ export default class MultiEdit extends LightningElement {
     @api customFiltersApexClass;
     @api isCustomSaveMode;
     @api customSaveApexClass;
+    @api objectApiName;
 
     refreshParentRecord = false;
     hasRecordUpdated = false;
@@ -45,7 +46,7 @@ export default class MultiEdit extends LightningElement {
         }
     }
 
-    @wire(getRecord, { recordId: '$reactiveRecordId', fields: ['Account.Id'] })
+    @wire(getRecord, { recordId: '$reactiveRecordId', fields: [`$objectApiName.Id`] })
     wiredRecord(result) {
         this.record = result;
         if (result.data && !this.hasRecordUpdated) {
