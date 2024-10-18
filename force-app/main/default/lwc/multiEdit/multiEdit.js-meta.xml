@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="relatedListObject" label="Related List Api Name" type="String"/>
+            <property name="relatedListLabel" label="Related List Label" type="String"/>
+            <property name="relatedObjectApiName" label="Object Api Name" type="String"/>
+            <property name="parentField" label="Parent Field Api Name" type="String"/>
+            <property name="fieldsString" label="Fields" type="String"/>
+            <property name="relatedListUniqueName" label="Unique Related List Name" type="String"/>
+            <property name="isCustomConditionsMode" label="Use Custom Conditions" type="Boolean" />
+            <property name="customConditionsApexClass" label="Custom Conditions Apex Class" type="String"/>
+            <property name="isCustomFiltersMode" label="Use Custom Filters" type="Boolean" />
+            <property name="customFiltersApexClass" label="Custom Filters Apex Class" type="String"/>
+            <property name="isCustomSaveMode" label="Use Custom Save" type="Boolean" />
+            <property name="customSaveApexClass" label="Custom Save Apex Class" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

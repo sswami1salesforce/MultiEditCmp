@@ -1,0 +1,35 @@
+.resizable-table {
+        table-layout: fixed;
+        width: 100%;
+    }
+    
+    .resizable-table th {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .header-cell {
+        display: flex;
+        align-items: center;
+    }
+    
+    .cell-content {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    .resize-handle {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 10px;
+        cursor: col-resize;
+        background-color: #eee;
+    }
+    
+    .resize-handle:hover {
+        background-color: #ccc;
+    }

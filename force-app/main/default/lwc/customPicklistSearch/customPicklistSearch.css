@@ -1,0 +1,103 @@
+/* Container for the entire form element */
+.form-element {
+    margin-bottom: 16px;
+    padding: 0 var(--lwc-spacingXxSmall,0.25rem);
+}
+
+/* Label styling */
+.form-label {
+    display: block;
+    font-size: 12px;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+/* Required marker styling */
+.required-marker {
+    color: red;
+    margin-right: 2px;
+}
+
+/* Input container to hold the input field and icons */
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%; /* Make sure the input container is full width */
+}
+
+/* Input field styling */
+.input {
+    width: 100%; /* Ensure the input field takes up full available width */
+    padding: 7.5px 29px; /* Enough padding to fit the icons */
+    border: 1px solid #747474;
+    border-radius: 4px;
+    font-size: 12.8px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.1s;
+}
+
+
+/* Input styling when selection is locked */
+.input-locked {
+    background-color: #f0f0f0;
+    color: #666;
+}
+
+/* Input field hover and focus styling */
+.input:focus {
+    box-shadow: var(--slds-g-shadow-outline-focus-1,0 0 3px #0176d3);
+}
+
+/* Left icon (search icon) */
+.icon-left {
+    position: absolute;
+    left: 10px;
+    font-size: 16px;
+    color: #999;
+    bottom: 5px;
+}
+
+/* Right icon (clear 'X' icon) */
+.icon-right {
+    position: absolute;
+    right: 10px;
+    font-size: 16px;
+    color: rgb(1 118 211);
+    cursor: pointer;
+    bottom: 6px;
+}
+
+/* Dropdown list styling */
+.dropdown {
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto; /* Scroll for vertical overflow */
+    overflow-x: auto; /* Hide horizontal overflow */
+    padding: 0;
+    list-style: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 100%; /* Make the dropdown width match the input field */
+    z-index: 1000;
+}
+
+/* Dropdown item styling */
+.dropdown-item {
+    padding: 10px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap; /* Prevent text from wrapping within dropdown items */
+    text-overflow: ellipsis; /* Truncate long text with ellipsis */
+}
+
+/* Dropdown item hover styling */
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}

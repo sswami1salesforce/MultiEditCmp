@@ -1,0 +1,47 @@
+<template>
+    <div class="form-element">
+        <label class="form-label" for="input">
+            <template if:true={required}>
+                <abbr class="required-marker" title="required">*</abbr>
+            </template>
+            {label}
+        </label>
+        <div class="form-control">
+            <div class="input-container">
+                <!-- Input field for searching and selecting -->
+                <input 
+                    id="input" 
+                    name="input" 
+                    placeholder={placeholder} 
+                    required={required} 
+                    class={inputClass} 
+                    type="text" 
+                    value={value} 
+                    oninput={handleInput} 
+                    onfocus={handleFocus} 
+                    onblur={handleBlur} 
+                    disabled={isInputDisabled}
+                />
+                <!-- Optional Search Icon -->
+                <span class="icon-left"><lightning-icon icon-name="utility:search" alternative-text="Connected" title="Connected" size="xx-small"></lightning-icon></span>
+                
+                <!-- Clear selection icon, shown only when an item is selected -->
+                <template if:true={isSelectionLocked}>
+                    <span class="icon-right" onclick={clearSelection}><lightning-icon icon-name="utility:close" alternative-text="Connected" size="xx-small" title="large size">
+                    </lightning-icon></span>
+                </template>
+            </div>
+
+            <!-- Custom Dropdown -->
+            <template if:true={isDropdownVisible}>
+                <ul class="dropdown">
+                    <template for:each={filteredValues} for:item="item">
+                        <li key={item.value} class="dropdown-item" data-value={item.value} onclick={handleSelect}>
+                            {item.value}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+        </div>
+    </div>
+</template>

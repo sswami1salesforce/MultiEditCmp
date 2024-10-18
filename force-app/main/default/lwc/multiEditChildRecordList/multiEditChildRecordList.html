@@ -1,0 +1,50 @@
+<template>
+    <lightning-card title={relatedListLabel}>
+        <lightning-spinner alternative-text="Loading" size="medium" if:false={parentLoaded}></lightning-spinner>
+        <lightning-button icon-name="utility:edit" label="Add or Edit" slot="actions" onclick={handleEditRecord} alternative-text="Settings"></lightning-button>
+        <div class="slds-scrollable">
+            <template if:true={hasRecords}>
+            <table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid" aria-label="Example advanced table of Opportunities in actionable mode">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <template for:each={fieldNames} for:item="fieldName">
+                            <th key={fieldName} class="slds-is-resizable slds-is-sortable slds-cell_action-mode" scope="col">
+                                <!-- Add your resizable and sortable handlers here -->
+                                <a class="slds-th__action slds-text-link_reset" href="#" role="button" tabindex="0">
+                                    <span class="slds-assistive-text">Sort by: </span>
+                                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                        <span class="slds-truncate" title={fieldName}>{fieldName}</span>
+                                        <!-- Include the sorting icon here -->
+                                    </div>
+                                </a>
+                                <!-- Include the resizable input and handle here -->
+                            </th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={records} for:item="rec">
+                        <tr key={rec.id}>
+                            <template for:each={fieldNames} for:item="field">
+                                <td key={field}>
+                                    <div class="cell-content">
+                                        <lightning-record-view-form record-id={rec.id} object-api-name={relatedObjectApiName} density="compact">
+                                            <lightning-output-field field-name={field} variant="label-hidden" class="truncate-text"></lightning-output-field>
+                                        </lightning-record-view-form>
+                                    </div>
+                                </td>
+                            </template>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            </template>
+            <template if:false={hasRecords}>
+                <div class="slds-text-heading_small slds-text-align_center">No records found</div>
+            </template>
+            <template if:true={error}>
+                <div class="slds-text-color_error">{error}</div>
+            </template>
+        </div>
+    </lightning-card>
+ </template>

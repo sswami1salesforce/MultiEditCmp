@@ -1,0 +1,111 @@
+<template>
+    <lightning-modal-header label="Multi Edit/Create"></lightning-modal-header>
+    <lightning-modal-body>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+      <!-- Filter Section -->
+    <div class="filter-section">
+        <!-- Toggle between simple and custom filters -->
+         <div class="slds-align_absolute-center">
+            <lightning-button-group>
+                <lightning-button label="Simple Filters" onclick={toggleFilterMode} variant="brand"></lightning-button>
+                <lightning-button label="Custom Filters" onclick={toggleFilterMode} variant="neutral" if:true={isCustomFiltersMode}></lightning-button>
+            </lightning-button-group>
+        </div>
+        <!-- Simple Filter Section -->
+        <template if:true={isCustomFilterMode}>
+                <div class="slds-align_absolute-center slds-var-m-top_x-small">
+                    <lightning-combobox
+                        label="Select Filter"
+                        value={selectedFilter}
+                        options={filters}
+                        data-filterfieldname="custom-filter"
+                        onchange={handleCustomFilterChange}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-align_absolute-center slds-var-m-bottom_large slds-var-m-top_medium">
+                    <lightning-button-group>
+                        <lightning-button label="Apply Custom Filter" onclick={applySelectedFilter} icon-name="utility:filterList"></lightning-button>
+                        <lightning-button label="Clear Filters" onclick={clearFilters} icon-name="utility:slider"></lightning-button>
+                    </lightning-button-group>
+                </div>
+        </template>
+
+        <!-- Custom Filter Section -->
+        <template if:false={isCustomFilterMode}>
+            <lightning-record-edit-form object-api-name={relatedObjectApiName}>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={extractedFields} for:item="field">
+                        <div key={field.name} class="field-container slds-size_1-of-2">
+                            <lightning-input-field field-name={field.name} value="" data-filterfieldname={field.name} onchange={handleFilterChange}></lightning-input-field>
+                        </div>
+                    </template>
+                </div>
+            </lightning-record-edit-form>
+
+            <div class="slds-align_absolute-center slds-var-m-bottom_large">
+                <lightning-button-group>
+                    <lightning-button label="Apply Filters" onclick={applyFilters} icon-name="utility:filterList"></lightning-button>
+                    <lightning-button label="Clear Filters" onclick={clearFilters} icon-name="utility:slider"></lightning-button>
+                </lightning-button-group>
+            </div>
+        </template>
+    </div>
+
+         <template for:each={records} for:item="rec">
+        <!--record edit form-->
+        <div key={rec.id} class="slds-p-bottom_large slds-p-left_large record-container" if:false={rec.filteredOut}>
+            <lightning-record-edit-form record-id={rec.id} data-record-id={rec.id} data-temp-id={rec.tempid} object-api-name={relatedObjectApiName} density="comfy" onload={handleLoad} onsubmit={startLoad} onerror={onError} onsuccess={onSave}>
+                <lightning-messages></lightning-messages>
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <template for:each={extractedFields} for:item="field">
+                        <div key={field.name} class="field-container slds-size_1-of-2">
+                          <template lwc:if={rec.id}>
+                                    <template if:false={field.isPicklist}>
+                                        <lightning-input-field field-name={field.name} data-fieldname={field.name} data-record-id={rec.id} data-tempid={rec.tempid} onchange={handleFieldChange}></lightning-input-field>
+                                    </template>
+                                    <template if:true={field.isPicklist}>
+                                       <c-custom-picklist-search label={field.name} name={field.name} fields={rec.fields} placeholder="Start typing..." field-api-name={field.picklistApi} record-type-id={rec.recordTypeId} data-fieldname={field.name} isreadonly=false isrequired=false data-record-id={rec.id} data-tempid={rec.tempid} onchange={handleAutocompleteChange}></c-custom-picklist-search>
+                                    </template>
+                            </template> 
+                            <template lwc:elseif={field.isParentField}>
+                                <lightning-input-field field-name={field.name} data-fieldname={field.name} data-record-id={rec.id} data-tempid={rec.tempid} onchange={handleFieldChange} value={parentRecordId}></lightning-input-field>
+                            </template>
+                            <template lwc:else>
+                                <template if:true={field.isPicklist}>
+                                    <c-custom-picklist-search label={field.name} name={field.name} fields={rec.fields} default-record-type-id={defaultRecordTypeId} placeholder="Start typing..." field-api-name={field.picklistApi} isreadonly=false isrequired=false record-type-id={rec.recordTypeId} data-fieldname={field.name} data-record-id={rec.id} data-tempid={rec.tempid} onchange={handleAutocompleteChange}></c-custom-picklist-search>
+                                 </template>
+                            <template if:false={field.isPicklist}>
+                                <lightning-input-field field-name={field.name} data-fieldname={field.name} data-record-id={rec.id} data-tempid={rec.tempid} onchange={handleFieldChange} value=""></lightning-input-field>
+                            </template>
+                            </template> 
+                        </div>
+                    </template>
+                    <div class={computeGridClass2}>
+                        <lightning-button-group>
+                            <lightning-button-icon icon-name="utility:sync" variant="brand" alternative-text="Verify" class="slds-m-left_xx-small" title="Verify" data-record-id={rec.id} data-tempid={rec.tempid} onclick={verifyCustomConditions} if:true={isCustomConditionsMode}></lightning-button-icon>
+                            <lightning-button-icon icon-name="utility:save" variant="border-filled" alternative-text="Save" class="slds-m-left_xx-small" title="Save" data-record-id={rec.id} data-tempid={rec.tempid} data-btn="save" type="submit"></lightning-button-icon>
+                            <lightning-button-icon icon-name="utility:delete" variant="border-filled" alternative-text="Delete" class="slds-m-left_xx-small" title="Delete" onclick={handleDeleteRecord} data-record-id={rec.id} data-btn="delete" data-tempid={rec.tempid}></lightning-button-icon>
+                        </lightning-button-group>
+                    </div>
+                </div>
+
+            </lightning-record-edit-form>
+        </div>  
+    </template>
+
+    <!-- Add Record Button -->
+    <template if:false={records.length}>
+        <div class="slds-text-heading_small slds-text-align_center">No records found</div>
+    </template>
+
+ </lightning-modal-body>
+    <lightning-modal-footer>
+        <div class="add-record-container">
+            <lightning-button variant="brand" label="Add Record" data-tempid="newRecordButton" onclick={addNewRecord}></lightning-button>
+        </div>
+        <lightning-button label="Close" onclick={handleOkay}></lightning-button>
+    </lightning-modal-footer>
+</template>
