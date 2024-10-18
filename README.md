@@ -1,18 +1,45 @@
-# Salesforce DX Project: Next Steps
+# Multi Edit Component Documentation
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+## Introduction
+The Multi Edit component, encapsulated within the main component called `multiEdit`, offers users the ability to edit multiple records simultaneously and add new multiple records with ease, all within Lightning Record Pages. By configuring specific properties and applying field conditions, users can tailor the Multi Edit component to their requirements, defining which objects and fields are displayed, manipulated, and under what conditions.
 
-## How Do You Plan to Deploy Your Changes?
+## Configuration Properties
+Below are the properties that need to be configured while embedding the Multi Edit (multiEdit) component on a Lightning Record Page:
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+- **relatedListObject:** This property specifies the API name of the related list to be displayed. Example value: `Inspections__r`.
+- **relatedListLabel:** Specifies the label for the related list. Example value: `Inspections`.
+- **relatedObjectApiName:** Indicates the API name of the related object. Example value: `Inspection__c`.
+- **parentField:** Specifies the API name of the parent field. Example value: `Case__c`.
+- **fieldsString:** Lists the fields to be displayed in the Multi Edit component, separated by commas. Example value: `Id,Name,Status__c,Stock__c,Case__c`.
 
-## Configure Your Salesforce DX Project
+## Field Conditions
+The Multi Edit component supports applying conditions to fields through the use of the `FieldConditions__c` object. These conditions allow for the hiding, making a field read-only, or making it required based on specified criteria.
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+**Conditions Format:**
 
-## Read All About It
+Conditions should be added in the following format:
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+[`<fieldapiname>`] `<conditional operator>` `<value>`
+
+
+Where:
+- `<fieldapiname>` refers to the API name of the field.
+- `<conditional operator>` denotes the comparison operator to be used (e.g., ===, !==, >, <, etc.).
+- `<value>` represents the value against which the field's value will be compared.
+
+**Example:**
+
+Consider the following example condition:
+
+[Priority] === 'High' && [Status] === 'New'
+
+
+This condition signifies that if the field `Priority` equals 'High' and the field `Status` equals 'New', the specified action (hide, read-only, or required) will be applied to the respective field.
+
+## Conclusion
+The Multi Edit component enhances user productivity by enabling simultaneous editing of multiple records and adding new multiple records seamlessly within Lightning Record Pages. By configuring the provided properties and applying field conditions, users can customize the component to meet their specific business requirements effectively.
+
+<a href="https://githubsfdeploy.herokuapp.com?owner=sswami1salesforce&repo=MultiEditCmp&ref=main">
+  <img alt="Deploy to Salesforce"
+       src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png">
+</a>
