@@ -40,10 +40,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>CurrencyIsoCode</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>DeleteCondition__c</field>
             </layoutItems>
             <layoutItems>
